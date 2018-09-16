@@ -1,5 +1,5 @@
-import { from, fromEvent, Subject, BehaviorSubject } from 'rxjs'
-import { scan, map, filter, tap, mergeMap, flatMap, switchMap, merge } from 'rxjs/operators'
+import { fromEvent, Subject, BehaviorSubject } from 'rxjs'
+import { scan, map, filter, tap, merge } from 'rxjs/operators'
 
 function createStore(initialState = {}, reducers = {}) {
   let streams = {}, actions = {}, store
@@ -19,10 +19,11 @@ function createStore(initialState = {}, reducers = {}) {
 }
 
 const todoStore = createStore([], {
-  add: (text) => (list = []) => [new TodoItem(text), ...list],
-  remove: (id) => (list = []) => list.filter(x => x.id !== id),
-  toggleActive: (id) => (list = []) => list.map(x => x.id === id ? x.toggleActive() : x),
-  toggleAll: () => (list = []) => {
+  add: text => list => [new TodoItem(text), ...list],
+  remove: id => list => list.filter(x => x.id !== id),
+  toggleActive: id => list => list.map(x => x.id === id ? x.toggleActive() : x),
+  clearCompleted: () => list => list.filter(x => x.isActive),
+  toggleAll: () => (list) => {
     const isSomeActive = list.some(x => x.isActive)
     return list.map(x => x.setActive(!isSomeActive))
   },
@@ -45,7 +46,6 @@ class TodoList {
     this.arrow = document.querySelector('#arrow')
 
     todoStore.store.subscribe((todoList) => {
-      console.log(todoList)
       this.list = todoList
       this.updateHTML()
     })
@@ -89,12 +89,18 @@ class TodoList {
       filter(e => e.target.hasAttribute('completed-button')),
     ).subscribe(filterStore.actions.filterCompleted)
 
+    // on clear completed
+    fromEvent(this.content, 'click').pipe(
+      filter(e => e.target.hasAttribute('clear-completed')),
+    ).subscribe(todoStore.actions.clearCompleted)
+
     // on arrow
     fromEvent(this.arrow, 'click').subscribe(todoStore.actions.toggleAll)
   }
 
   getActive = () => this.list.filter(x => x.isActive).length
   isAllActive = () => this.list.every(x => x.isActive)
+  isSomeCompleted = () => this.list.some(x => !x.isActive)
 
   updateHTML = () => {
     const active = this.getActive()
@@ -105,6 +111,7 @@ class TodoList {
          <span ${this.filter.value === 'All' ? 'style="border: 1px solid gold"' : ''} all-button>All</span>
          <span ${this.filter.value === 'Active' ? 'style="border: 1px solid gold"' : ''} active-button>Active</span>
          <span ${this.filter.value === 'Completed' ? 'style="border: 1px solid gold"' : ''} completed-button>Completed</span>
+         <span ${!this.isSomeCompleted() ? 'style="display: none"' : ''} clear-completed>Clear completed</span>
       </div>
      `
     this.arrow.style.opacity = this.isAllActive() ? '1' : '0.5'
