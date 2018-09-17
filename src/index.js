@@ -3,8 +3,6 @@ import TodoItem from './components/TodoItem';
 import TodoList from './components/TodoList';
 import { TODO_LOCAL_STORAGE_KEY, loadFromLocalStorage, parseUrlLocation } from './utils';
 
-import 'todomvc-app-css/index.css';
-
 const todoStore = createStore([], {
   add: todo => list => [...list, new TodoItem(todo, todoStore)],
   remove: id => list => list.filter(x => x.id !== id),
