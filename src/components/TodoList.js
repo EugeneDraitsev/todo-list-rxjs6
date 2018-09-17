@@ -42,8 +42,9 @@ export default class TodoList {
     fromEvent(this.input, 'keyup').pipe(
       filter(e => e.key === 'Enter'),
       map(e => e.target.value),
+      filter(value => value),
       tap(() => this.input.value = ''),
-    ).subscribe(todoList => todoStore.actions.add(todoList))
+    ).subscribe(text => todoStore.actions.add(text))
 
     // on arrow
     fromEvent(this.arrow, 'click').subscribe(todoStore.actions.toggleAll)

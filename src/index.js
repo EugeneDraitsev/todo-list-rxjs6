@@ -6,6 +6,16 @@ const todoStore = createStore([], {
   add: text => list => [new TodoItem(text, todoStore), ...list],
   remove: id => list => list.filter(x => x.id !== id),
   toggleActive: id => list => list.map(x => x.id === id ? x.toggleActive() : x),
+  enableEdit: id => list => list.map(x => x.id === id ? x.enableEdit() : x),
+  cancelEdit: id => list => list.map(x => x.id === id ? x.cancelEdit() : x),
+  changeText: ({id, text}) => list => {
+    console.log(id)
+    console.log(text)
+    if (!text) {
+      return list.filter(x => x.id !== id)
+    }
+    return list.map(x => x.id === id ? x.setText(text) : x)
+  },
   clearCompleted: () => list => list.filter(x => x.isActive),
   toggleAll: () => (list) => {
     const isSomeActive = list.some(x => x.isActive)

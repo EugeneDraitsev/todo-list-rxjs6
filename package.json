@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --port 3000",
-    "build": "rimraf ./dist/* && webpack --mode production --config webpack.dist.config.js"
+    "build": "rimraf ./dist/* && webpack --mode production"
   },
   "dependencies": {
     "rxjs": "^6.3.2",
