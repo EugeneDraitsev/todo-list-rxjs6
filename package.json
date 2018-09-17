@@ -14,7 +14,8 @@
     "start": "webpack-dev-server --mode development --hot --port 3000",
     "build": "rimraf ./dist/* && webpack --mode production",
     "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "deploy": "surge dist todomvc-rxjs6.surge.sh"
   },
   "dependencies": {
     "rxjs": "^6.3.2",
