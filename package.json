@@ -8,7 +8,8 @@
     "build": "rimraf ./dist/* && webpack --mode production --config webpack.dist.config.js"
   },
   "dependencies": {
-    "rxjs": "^6.3.2"
+    "rxjs": "^6.3.2",
+    "todomvc-app-css": "^2.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",

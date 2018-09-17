@@ -8,17 +8,25 @@ export default class TodoList {
   constructor(todoStore, filterStore, rootSelector) {
     this.rootSelector = rootSelector
     this.rootSelector.innerHTML = `
-      <div style="display: flex">
-        <div arrow style="width: 10px; padding: 5px; transform: rotate(90deg);">></div>
-        <input main-input placeholder="What needs to be done?" />
-      </div>
-      <div content></div>
+      <header class="header">
+       <h1>todos</h1>
+       <div style="display: flex">
+         <input class="new-todo" placeholder="What needs to be done?" autofocus main-input>
+       </div>
+      </header>
+      <section class="main">
+        <input id="toggle-all" class="toggle-all" type="checkbox" arrow>
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list" todo-list></ul>
+      </section>
+      <div filters></div>
     `
     this.input = this.rootSelector.querySelector('[main-input]')
-    this.content = this.rootSelector.querySelector('[content]')
+    this.listNode = this.rootSelector.querySelector('[todo-list]')
     this.arrow = this.rootSelector.querySelector('[arrow]')
+    this.filters = this.rootSelector.querySelector('[filters]')
 
-    this.filterBlock = new Filters(todoStore, filterStore, this.content)
+    this.filterBlock = new Filters(todoStore, filterStore, this.filters)
 
     filterStore.store.subscribe((filter) => {
       this.filter = filter
@@ -44,11 +52,11 @@ export default class TodoList {
   isAllActive = () => this.list.every(x => x.isActive)
 
   updateHTML = () => {
-    this.content.innerHTML = `
+    this.listNode.innerHTML = `
       <div>${this.list.filter(this.filter.fn).map(todo => todo.getHtml()).join('')}</div>
-      ${this.filterBlock.getHtml()}
      `
-    this.arrow.style.opacity = this.isAllActive() ? '1' : '0.5'
-    this.arrow.style.display = this.list.length ? 'block' : 'none'
+    this.filters.innerHTML = `${this.filterBlock.getHtml()}`
+    // this.arrow.style.opacity = this.isAllActive() ? '1' : '0.5'
+    // this.arrow.style.display = this.list.length ? 'block' : 'none'
   }
 }

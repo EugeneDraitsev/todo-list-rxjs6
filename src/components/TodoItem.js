@@ -35,9 +35,13 @@ export default class TodoItem {
   }
 
   getHtml = () => `
-    <div>
-        <input data-item-id="${this.id}" type="checkbox" ${!this.isActive ? 'checked' : ''} toggle-active />
-        <span ${!this.isActive ? 'style="text-decoration: line-through;"' : ''}>${this.text}</span>
-        <button data-item-id="${this.id}" remove-button>x</button>
-    </div>`
+    <li class="${!this.isActive ? 'completed' : ''}">
+      <div class="view">
+        <input data-item-id="${this.id}" ${!this.isActive ? 'checked' : ''} type="checkbox" class="toggle" toggle-active>
+        <label>${this.text}</label>
+        <button data-item-id="${this.id}" class="destroy" remove-button></button>
+      </div>
+      <input data-item-id="${this.id}" class="edit" value="Create a TodoMVC template" toggle-active>
+    </li>
+    `
 }

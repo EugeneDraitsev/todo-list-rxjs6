@@ -37,13 +37,27 @@ export default class Filters {
   getHtml = () => {
     const activeCount = this.getActive()
     return `
-      <div ${!this.list.length ? 'style="display: none;"' : ''}>
-         ${activeCount} ${activeCount === 1 ? 'item' : 'items'} left
-         <span ${this.filter.value === 'All' ? 'style="border: 1px solid gold"' : ''} all-button>All</span>
-         <span ${this.filter.value === 'Active' ? 'style="border: 1px solid gold"' : ''} active-button>Active</span>
-         <span ${this.filter.value === 'Completed' ? 'style="border: 1px solid gold"' : ''} completed-button>Completed</span>
-         <span ${!this.isSomeCompleted() ? 'style="display: none"' : ''} clear-completed>Clear completed</span>
-      </div>
+      <footer class="footer" ${!this.list.length ? 'style="display: none;"' : ''}>
+        <span class="todo-count"><strong>${activeCount}</strong>  ${activeCount === 1 ? 'item' : 'items'} left</span>
+        <!-- Remove this if you don't implement routing -->
+        <ul class="filters">
+          <li>
+            <a all-button class="${this.filter.value === 'All' ? 'selected' : ''}" href="#/">All</a>
+          </li>
+          <li>
+            <a active-button class="${this.filter.value === 'Active' ? 'selected' : ''}" href="#/active">Active</a>
+          </li>
+          <li>
+            <a completed-button class="${this.filter.value === 'Completed' ? 'selected' : ''}" href="#/completed">
+              Completed
+            </a>
+          </li>
+        </ul>
+        <!-- Hidden if no completed items are left ↓ -->
+        <button ${!this.isSomeCompleted() ? 'style="display: none"' : ''} clear-completed class="clear-completed">
+          Clear completed
+        </button>
+      </footer>
      `
   }
 }
