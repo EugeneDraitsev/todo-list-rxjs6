@@ -10,5 +10,5 @@ pipelines:
             - yarn
             - yarn lint:fix
             - yarn build
-            - cp dist/index.html build/200.html
+            - cp dist/index.html dist/200.html
             - surge dist todomvc-rxjs6.surge.sh
