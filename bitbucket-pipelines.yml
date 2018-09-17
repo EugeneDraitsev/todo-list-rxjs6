@@ -1,0 +1,14 @@
+image: node:latest
+
+pipelines:
+  branches:
+    master:
+      - step:
+          caches:
+            - node
+          script:
+            - yarn
+            - yarn lint:fix
+            - yarn build
+            - cp build/index.html build/200.html
+            - surge build todomvc-rxjs6.surge.sh

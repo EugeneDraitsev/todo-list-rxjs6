@@ -1,22 +1,27 @@
-import { Subject, BehaviorSubject } from 'rxjs'
-import { scan, map, merge } from 'rxjs/operators'
+import { Subject, BehaviorSubject } from 'rxjs';
+import { scan, map, merge } from 'rxjs/operators';
 
-export function createStore(initialState = {}, reducers = {}) {
-  let streams = {}, actions = {}
+export default function (initialState = {}, reducers = {}) {
+  const streams = {};
+  const actions = {};
 
-  for (let action in reducers) {
-    let subject = new Subject()
-    streams[action] = subject.pipe(map(reducers[action]))
-    actions[action] = (args) => subject.next(args)
+  // eslint-disable-next-line
+  for (const action in reducers) {
+    const subject = new Subject();
+    streams[action] = subject.pipe(map(reducers[action]));
+    actions[action] = args => subject.next(args);
   }
 
   const behaviorSubject = new BehaviorSubject(initialState).pipe(
     merge(...Object.values(streams)),
     scan((state, reducer) => reducer(state)),
-  )
+  );
 
-  const store = new BehaviorSubject({})
-  behaviorSubject.subscribe(x => store.next(x))
+  const store = new BehaviorSubject({});
+  behaviorSubject.subscribe(x => store.next(x));
 
-  return { store, actions }
+  return {
+    store,
+    actions,
+  };
 }

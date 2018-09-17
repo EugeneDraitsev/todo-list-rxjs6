@@ -1,45 +1,45 @@
-import { fromEvent } from 'rxjs'
-import { filter } from 'rxjs/operators'
+import { fromEvent } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 export default class Filters {
   list = []
 
   constructor(todoStore, filterStore, rootSelector) {
-    this.rootSelector = rootSelector
+    this.rootSelector = rootSelector;
 
-    filterStore.store.subscribe(filter => this.filter = filter)
-    todoStore.store.subscribe(todoList => this.list = todoList)
+    filterStore.store.subscribe(filterValue => this.filter = filterValue);
+    todoStore.store.subscribe(todoListValue => this.list = todoListValue);
 
     // on all button
     fromEvent(this.rootSelector, 'click').pipe(
       filter(e => e.target.hasAttribute('all-button')),
-    ).subscribe(filterStore.actions.filterAll)
+    ).subscribe(filterStore.actions.filterAll);
 
     // on active button
     fromEvent(this.rootSelector, 'click').pipe(
       filter(e => e.target.hasAttribute('active-button')),
-    ).subscribe(filterStore.actions.filterActive)
+    ).subscribe(filterStore.actions.filterActive);
 
     // on completed button
     fromEvent(this.rootSelector, 'click').pipe(
       filter(e => e.target.hasAttribute('completed-button')),
-    ).subscribe(filterStore.actions.filterCompleted)
+    ).subscribe(filterStore.actions.filterCompleted);
 
     // on clear completed
     fromEvent(this.rootSelector, 'click').pipe(
       filter(e => e.target.hasAttribute('clear-completed')),
-    ).subscribe(todoStore.actions.clearCompleted)
+    ).subscribe(todoStore.actions.clearCompleted);
   }
 
   getActive = () => this.list.filter(x => x.isActive).length
+
   isSomeCompleted = () => this.list.some(x => !x.isActive)
 
   getHtml = () => {
-    const activeCount = this.getActive()
+    const activeCount = this.getActive();
     return `
       <footer class="footer" ${!this.list.length ? 'style="display: none;"' : ''}>
-        <span class="todo-count"><strong>${activeCount}</strong>  ${activeCount === 1 ? 'item' : 'items'} left</span>
-        <!-- Remove this if you don't implement routing -->
+        <span class="todo-count"><strong>${activeCount}</strong> ${activeCount === 1 ? 'item' : 'items'} left</span>
         <ul class="filters">
           <li>
             <a all-button class="${this.filter.value === 'All' ? 'selected' : ''}" href="#/">All</a>
@@ -58,6 +58,6 @@ export default class Filters {
           Clear completed
         </button>
       </footer>
-     `
+     `;
   }
 }
