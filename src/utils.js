@@ -9,7 +9,6 @@ export const loadFromLocalStorage = (todoStore) => {
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
-    lint - error;
   }
 };
 
