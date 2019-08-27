@@ -7,33 +7,33 @@ export default class Filters {
   constructor(todoStore, filterStore, rootSelector) {
     this.rootSelector = rootSelector;
 
-    filterStore.store.subscribe(filterValue => this.filter = filterValue);
-    todoStore.store.subscribe(todoListValue => this.list = todoListValue);
+    filterStore.store.subscribe((filterValue) => this.filter = filterValue);
+    todoStore.store.subscribe((todoListValue) => this.list = todoListValue);
 
     // on all button
     fromEvent(this.rootSelector, 'click').pipe(
-      filter(e => e.target.hasAttribute('all-button')),
+      filter((e) => e.target.hasAttribute('all-button')),
     ).subscribe(filterStore.actions.filterAll);
 
     // on active button
     fromEvent(this.rootSelector, 'click').pipe(
-      filter(e => e.target.hasAttribute('active-button')),
+      filter((e) => e.target.hasAttribute('active-button')),
     ).subscribe(filterStore.actions.filterActive);
 
     // on completed button
     fromEvent(this.rootSelector, 'click').pipe(
-      filter(e => e.target.hasAttribute('completed-button')),
+      filter((e) => e.target.hasAttribute('completed-button')),
     ).subscribe(filterStore.actions.filterCompleted);
 
     // on clear completed
     fromEvent(this.rootSelector, 'click').pipe(
-      filter(e => e.target.hasAttribute('clear-completed')),
+      filter((e) => e.target.hasAttribute('clear-completed')),
     ).subscribe(todoStore.actions.clearCompleted);
   }
 
-  getActive = () => this.list.filter(x => x.isActive).length
+  getActive = () => this.list.filter((x) => x.isActive).length
 
-  isSomeCompleted = () => this.list.some(x => !x.isActive)
+  isSomeCompleted = () => this.list.some((x) => !x.isActive)
 
   getHtml = () => {
     const activeCount = this.getActive();

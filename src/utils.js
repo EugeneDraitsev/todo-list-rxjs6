@@ -4,9 +4,10 @@ export const loadFromLocalStorage = (todoStore) => {
   try {
     const initialTodo = JSON.parse(localStorage.getItem(TODO_LOCAL_STORAGE_KEY));
     if (initialTodo && initialTodo.length) {
-      initialTodo.forEach(todo => todoStore.actions.add(todo));
+      initialTodo.forEach((todo) => todoStore.actions.add(todo));
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e);
   }
 };

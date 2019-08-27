@@ -9,7 +9,7 @@ export default function (initialState = {}, reducers = {}) {
   for (const action in reducers) {
     const subject = new Subject();
     streams[action] = subject.pipe(map(reducers[action]));
-    actions[action] = args => subject.next(args);
+    actions[action] = (args) => subject.next(args);
   }
 
   const behaviorSubject = new BehaviorSubject(initialState).pipe(
@@ -18,7 +18,7 @@ export default function (initialState = {}, reducers = {}) {
   );
 
   const store = new BehaviorSubject({});
-  behaviorSubject.subscribe(x => store.next(x));
+  behaviorSubject.subscribe((x) => store.next(x));
 
   return {
     store,

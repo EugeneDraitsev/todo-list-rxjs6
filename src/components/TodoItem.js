@@ -22,18 +22,18 @@ export default class TodoItem {
     // on checkbox
     this.subscriptions.push(
       fromEvent(document, 'click').pipe(
-        filter(e => e.target.dataset.itemId === this.id),
-        filter(e => e.target.hasAttribute('toggle-active')),
-        map(e => e.target.dataset.itemId),
+        filter((e) => e.target.dataset.itemId === this.id),
+        filter((e) => e.target.hasAttribute('toggle-active')),
+        map((e) => e.target.dataset.itemId),
       ).subscribe(todoStore.actions.toggleActive),
     );
 
     // on remove
     this.subscriptions.push(
       fromEvent(document, 'click').pipe(
-        filter(e => e.target.dataset.itemId === this.id),
-        filter(e => e.target.hasAttribute('remove-button')),
-        map(e => e.target.dataset.itemId),
+        filter((e) => e.target.dataset.itemId === this.id),
+        filter((e) => e.target.hasAttribute('remove-button')),
+        map((e) => e.target.dataset.itemId),
       ).subscribe(todoStore.actions.remove),
     );
 
@@ -41,9 +41,9 @@ export default class TodoItem {
     this.subscriptions.push(
       fromEvent(document, 'dblclick').pipe(
         // tap(console.log),
-        filter(e => e.target.dataset.itemId === this.id),
-        filter(e => e.target.hasAttribute('text-label')),
-        map(e => e.target.dataset.itemId),
+        filter((e) => e.target.dataset.itemId === this.id),
+        filter((e) => e.target.hasAttribute('text-label')),
+        map((e) => e.target.dataset.itemId),
       ).subscribe((id) => {
         todoStore.actions.enableEdit(id);
         const input = document.querySelector(`[text-input][data-item-id=${this.id}]`);
@@ -59,14 +59,14 @@ export default class TodoItem {
     this.subscriptions.push(
       fromEvent(document, 'click').pipe(
         filter(() => this.editing),
-        filter(e => !e.target.hasAttribute('text-input')),
+        filter((e) => !e.target.hasAttribute('text-input')),
       ).subscribe(() => todoStore.actions.cancelEdit(this.id)),
     );
 
     this.subscriptions.push(
       fromEvent(document, 'keyup').pipe(
         filter(() => this.editing),
-        filter(e => e.key === 'Escape'),
+        filter((e) => e.key === 'Escape'),
       ).subscribe(() => todoStore.actions.cancelEdit(this.id)),
     );
 
@@ -74,9 +74,9 @@ export default class TodoItem {
     this.subscriptions.push(
       fromEvent(document, 'keyup').pipe(
         filter(() => this.editing),
-        filter(e => e.key === 'Enter'),
-        map(e => e.target.value),
-      ).subscribe(newText => todoStore.actions.changeText({ id: this.id, text: newText })),
+        filter((e) => e.key === 'Enter'),
+        map((e) => e.target.value),
+      ).subscribe((newText) => todoStore.actions.changeText({ id: this.id, text: newText })),
     );
   }
 
@@ -109,7 +109,7 @@ export default class TodoItem {
   };
 
   onRemove = () => {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   };
 
   getHtml = () => `

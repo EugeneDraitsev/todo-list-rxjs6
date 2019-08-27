@@ -46,25 +46,25 @@ export default class TodoList {
     // on enter press
     fromEvent(this.input, 'keyup')
       .pipe(
-        filter(e => e.key === 'Enter'),
-        map(e => e.target.value),
-        filter(value => value),
+        filter((e) => e.key === 'Enter'),
+        map((e) => e.target.value),
+        filter((value) => value),
         tap(() => this.input.value = ''),
       )
-      .subscribe(text => todoStore.actions.add({ text }));
+      .subscribe((text) => todoStore.actions.add({ text }));
 
     // on arrow
     fromEvent(this.arrow, 'click')
       .subscribe(todoStore.actions.toggleAll);
   }
 
-  isAllCompleted = () => this.list.every(x => !x.isActive);
+  isAllCompleted = () => this.list.every((x) => !x.isActive);
 
   updateHTML = () => {
     this.listNode.innerHTML = `
       <div>
         ${this.list.filter(this.filter.fn)
-      .map(todo => todo.getHtml())
+      .map((todo) => todo.getHtml())
       .join('')}
       </div>`;
 
