@@ -1,8 +1,8 @@
-## Rxjs6 TODOMvc example
+## Rxjs6 TodoMVC Implementation
 
 **Demo:** [http://todomvc-rxjs6.surge.sh](http://todomvc-rxjs6.surge.sh)
 
-Simple implementation of [TODOMvc](http://todomvc.com/) with rxjs6 and native js
+Simple implementation of [TodoMVC](http://todomvc.com/) with rxjs6 and native js
 
 
 To run it locally just clone this repo and run:
