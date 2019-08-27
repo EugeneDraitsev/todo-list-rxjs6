@@ -1,4 +1,4 @@
-## Rxjs6 TODOMvc example (native js)
+## Rxjs6 TODOMvc example
 
 **Demo:** [http://todomvc-rxjs6.surge.sh](http://todomvc-rxjs6.surge.sh)
 
