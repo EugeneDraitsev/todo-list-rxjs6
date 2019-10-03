@@ -1,6 +1,6 @@
 ## Rxjs6 TodoMVC Implementation
 
-**Demo:** [http://todomvc-rxjs6.surge.sh](http://todomvc-rxjs6.surge.sh)
+**Demo:** [https://todomvc-rxjs6.surge.sh](http://todomvc-rxjs6.surge.sh)
 
 Simple implementation of [TodoMVC](http://todomvc.com/) with rxjs6 and native js
 
@@ -11,6 +11,6 @@ yarn
 yarn start
 ```
 
-![screnshot](https://s3.eu-central-1.amazonaws.com/bb-image-drai/TodoMVC+rxjs+6+2018-09-17+22-05-15.png)
+![screnshot](./.github/preview.png)
 
 
